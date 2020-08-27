@@ -172,10 +172,10 @@ suite('Functional Tests', function() {
 
   // On Gomix we'll use this setting
   /** ### Copy your project's url here  ### **/
-  Browser.site = 'https://sincere-cone.gomix.me'; 
+  Browser.site = 'https://boilerplate-mochachai.markomannux.repl.co';
   
   // If you are testing on a local environment replace the line above  with 
-  // Browser.localhost('example.com', (process.env.PORT || 3000));
+  //Browser.localhost('example.com', (process.env.PORT || 3000));
 
   suite('e2e Testing with Zombie.js', function() {
     const browser = new Browser();
@@ -252,14 +252,15 @@ suite('Functional Tests', function() {
             // pressButton is Async.  Waits for the ajax call to complete...
 
             // assert that status is OK 200
+            browser.assert.success();
 
             // assert that the text inside the element 'span#name' is 'Cristoforo'
-
+            browser.assert.text('span#name', 'Cristoforo');
             // assert that the text inside the element 'span#surname' is 'Colombo'
+            browser.assert.text('span#surname', 'Colombo');
 
             // assert that the element(s) 'span#dates' exist and their count is 1
-            
-            assert.fail();
+            browser.assert.element('span#dates', 1)
             
             done();   // It's an async test, so we have to call 'done()''
           });
@@ -268,14 +269,21 @@ suite('Functional Tests', function() {
       
       /** Try it again... No help this time **/
       test('submit "surname" : "Vespucci" - write your e2e test...', function(done) {
-
+        
         // fill the form, and submit.
-        // assert that status is OK 200
-        // assert that the text inside the element 'span#name' is 'Amerigo'
-        // assert that the text inside the element 'span#surname' is 'Vespucci'
-        // assert that the element(s) 'span#dates' exist and their count is 1
-        assert.fail();
-        done();
+        browser
+          .fill('surname', 'Vespucci')
+          .pressButton('submit', function() {
+            // assert that status is OK 200
+            browser.assert.success()
+            // assert that the text inside the element 'span#name' is 'Amerigo'
+            browser.assert.text('span#name', 'Amerigo')
+            // assert that the text inside the element 'span#surname' is 'Vespucci'
+            browser.assert.text('span#surname', 'Vespucci')
+            // assert that the element(s) 'span#dates' exist and their count is 1
+            browser.assert.element('span#dates', 1)
+            done();
+          })
       
       });
     });
